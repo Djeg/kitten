@@ -1,0 +1,6 @@
+[
+  "src/main.js",
+  "src/graphic/main.js",
+  "src/factory/main.js",
+  "src/**/*.js"
+]

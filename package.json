@@ -1,0 +1,40 @@
+{
+  "name": "kitten",
+  "version": "0.1.0",
+  "description": "Kitten is the most adorable game engine for javascript",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/.bin/grunt test"
+  },
+  "keywords": [
+    "canvas",
+    "game",
+    "engine",
+    "game"
+  ],
+  "author": "David Jegat <david.jegat@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "classy": "~0.3.130506190513602",
+    "grunt-cli": "~0.1.11",
+    "grunt": "~0.4.2",
+    "load-grunt-config": "~0.7.0",
+    "grunt-contrib-jshint": "~0.8.0",
+    "grunt-contrib-uglify": "~0.3.1",
+    "yuidocjs": "~0.3.47",
+    "grunt-contrib-yuidoc": "~0.5.0",
+    "grunt-contrib-watch": "~0.5.3",
+    "karma-script-launcher": "~0.1.0",
+    "karma-chrome-launcher": "~0.1.2",
+    "karma-firefox-launcher": "~0.1.3",
+    "karma-html2js-preprocessor": "~0.1.0",
+    "karma-jasmine": "~0.1.5",
+    "karma-coffee-preprocessor": "~0.1.2",
+    "requirejs": "~2.1.10",
+    "karma-requirejs": "~0.2.1",
+    "karma-phantomjs-launcher": "~0.1.1",
+    "karma": "~0.10.9",
+    "grunt-karma": "~0.6.2",
+    "jshint-stylish": "~0.1.5"
+  }
+}

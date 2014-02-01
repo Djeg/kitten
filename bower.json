@@ -1,0 +1,21 @@
+{
+  "name": "kitten",
+  "version": "0.1.0",
+  "authors": [
+    "David Jegat <david.jegat@gmail.com>"
+  ],
+  "description": "Kitten is the most adorable game engine for javascript",
+  "main": "kitten.min.js",
+  "keywords": [
+    "canvas",
+    "game",
+    "engine",
+    "game"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "classy": "*",
+    "jquery": "~2.1.0",
+    "jquery-fullscreen": "~1.1.4"
+  }
+}

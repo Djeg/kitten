@@ -1,7 +1,7 @@
 kitten
 ======
 
-![Build Status](https://travis-ci.org/Djeg/kitten.png?branch=master)](https://travis-ci.org/Djeg/kitten)
+![Build Status](https://travis-ci.org/Djeg/kitten.png?branch=master)
 
 ![kitten the adorable game engine](.img/kitten.png)
 

@@ -97,6 +97,12 @@ kitten.GameEngine = Class.$extend({
     this.gameLoop     = setInterval(function () {
       scene.update();
     }, 1000 / this.config.get('fps', 25) );
+    this.$element.bind('keydown', function (e) {
+      this.keyboard.doPress(e.wich);
+    });
+    this.$element.bind('keyup', function (e) {
+      this.keyboard.doRelease(e.which);
+    });
 
     return this;
   },
@@ -118,6 +124,9 @@ kitten.GameEngine = Class.$extend({
     this.runningScene.stop();
 
     this.runningScene = null;
+
+    this.$element.unbind('keydown');
+    this.$element.unbind('keypress');
 
     return this;
   }

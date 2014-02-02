@@ -46,6 +46,7 @@ kitten.GameEngine = Class.$extend({
     this.config       = new kitten.ConfigProcessor(config);
     this.gameLoop     = false;
     this.screen       = new kitten.Screen(this.config.get('screen', {}), this);
+    this.keyboard     = new kitten.Keyboard();
     this.screen.adjust();
   },
 

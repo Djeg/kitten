@@ -232,4 +232,37 @@ describe('A BaseScene', function() {
     expect(scene.getLoadingLayer('test').draw).toHaveBeenCalled();
   });
 
+  it('should detect pressed key', function() {
+    var engine = new kitten.GameEngine('#game');
+    var scene = new kitten.BaseScene();
+    scene.setUp(engine);
+
+    engine.keyboard.isPressed = jasmine.createSpy('keypressed');
+
+    scene.isKeyPressed();
+
+    expect(engine.keyboard.isPressed).toHaveBeenCalled();
+  });
+
+  it('should detect pushed keys', function() {
+    var engine = new kitten.GameEngine('#game');
+    var scene = new kitten.BaseScene();
+    scene.setUp(engine);
+
+    engine.keyboard.isPushed = jasmine.createSpy('keypushed');
+
+    scene.isKeyPushed();
+
+    expect(engine.keyboard.isPushed).toHaveBeenCalled();
+  });
+
+  it('shoudl retrieve keyboard key code', function() {
+    var engine = new kitten.GameEngine('#game');
+    var scene = new kitten.BaseScene();
+
+    scene.setUp(engine);
+
+    expect(scene.getKey('ENTER')).toBe(13);
+    expect(scene.getKey('SPACE')).toBe(32);
+  });
 });

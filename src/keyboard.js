@@ -15,7 +15,17 @@
 kitten.Keyboard = Class.$extend({
   __classvars__: {
     ENTER:  13,
+    enter:  13,
     SPACE:  32,
+    space:  32,
+    UP:     38,
+    up:     38,
+    DOWN:   40,
+    down:   40,
+    LEFT:   37,
+    left:   37,
+    RIGHT:  39,
+    right:  39,
     A:      65,
     B:      66,
     C:      67,

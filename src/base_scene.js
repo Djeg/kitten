@@ -188,6 +188,46 @@ kitten.BaseScene = Class.$extend({
   },
 
   /**
+   * Test if a key is pressed
+   *
+   * @method isKeyPressed
+   *
+   * @param {Number} keyCode
+   *
+   * @return {Boolean}
+   */
+  isKeyPressed: function (keyCode) {
+    return this.engine.keyboard.isPressed(keyCode);
+  },
+
+  /**
+   * Test if a key is pushed
+   *
+   * @method isKeyPushed
+   *
+   * @param {Number} keyCode
+   *
+   * @return {Boolean}
+   */
+  isKeyPushed: function (keyCode) {
+    return this.engine.keyboard.isPushed(keyCode);
+  },
+
+  /**
+   * Retrieve a key code, that can be send into keyPressed or keyPushed
+   * of a kitten.Keyboard object
+   *
+   * @method getKey
+   *
+   * @param {String} keyName
+   *
+   * @return {Boolean}
+   */
+  getKey: function (keyName) {
+    return kitten.Keyboard[keyName];
+  },
+
+  /**
    * Change the scene. Stop this scene and start a new one
    *
    * @method changeScene

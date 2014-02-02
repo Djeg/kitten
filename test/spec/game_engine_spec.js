@@ -19,6 +19,12 @@ describe('The kitten GameEngine', function() {
     expect(engine.screen).toBeDefined();
   });
 
+  it('should contains a keyboard', function() {
+    var engine = new kitten.GameEngine('#game');
+
+    expect(engine.keyboard).toBeDefined();
+  });
+
   it('should accept screen configuration', function() {
     var engine = new kitten.GameEngine('#game', {
       screen: {

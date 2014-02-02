@@ -34,7 +34,7 @@ kitten.graphic.BaseGraphic = Class.$extend({
     }
 
     this.context = null;
-    if (undefined === this.enabled) {
+    if (undefined === options.enabled) {
       this.enabled = true;
     }
   },

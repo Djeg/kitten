@@ -204,4 +204,32 @@ describe('A BaseScene', function() {
     expect(scene.act).toHaveBeenCalled();
     expect(scene.load).not.toHaveBeenCalled();
   });
+
+  it('should load loading layers instead of layers', function() {
+    var engine = new kitten.GameEngine('#game');
+    var scene  = new kitten.BaseScene();
+    scene.addLoadingLayer('test', {});
+    scene.getLoadingLayer('test').draw = jasmine.createSpy('test_load');
+    scene.addLayer('bar', {});
+    scene.getLayer('bar').draw = jasmine.createSpy('bar_load');
+    scene.getLayer('bar').isReady = function () {
+      return false;
+    };
+    scene.load = jasmine.createSpy('load');
+    var f = function () {
+      scene.getLoadingLayer('baz');
+    };
+
+    scene.setUp(engine);
+
+    scene.update();
+
+    expect(scene.getLoadingLayer('test')).not.toBeNull();
+    expect(f).toThrow();
+
+    expect(scene.load).toHaveBeenCalled();
+    expect(scene.getLayer('bar').draw).not.toHaveBeenCalled();
+    expect(scene.getLoadingLayer('test').draw).toHaveBeenCalled();
+  });
+
 });

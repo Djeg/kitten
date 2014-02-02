@@ -24,12 +24,14 @@ kitten.BaseScene = Class.$extend({
    * @method __init__
    */
   __init__: function () {
-    this.engine        = null;
-    this.layers        = {};
-    this.orderedLayers = null;
-    this.acting        = false;
-    this.layerFactory  = new kitten.factory.LayerFactory();
-    this.ready         = false;
+    this.engine               = null;
+    this.layers               = {};
+    this.orderedLayers        = null;
+    this.loadingLayers        = {};
+    this.orderedLoadingLayers = null;
+    this.acting               = false;
+    this.layerFactory         = new kitten.factory.LayerFactory();
+    this.ready                = false;
   },
 
   /**
@@ -68,6 +70,25 @@ kitten.BaseScene = Class.$extend({
   },
 
   /**
+   * Add a loading layer
+   *
+   * @method addLoadingLayer
+   *
+   * @param {String} name
+   * @param {Object} config
+   * @chainable
+   */
+  addLoadingLayer: function (name, config) {
+    if (undefined !== this.loadingLayers[name]) {
+      throw kitten.Error('The loading layer "%s" is always register in the scene :(', name);
+    }
+
+    this.loadingLayers[name] = this.layerFactory.create(config);
+
+    return this;
+  },
+
+  /**
    * Retrieve a graphic. This method take a special string formated like that :
    * "layer_name:graphic_name" and try to resolve it into a corect graphic
    *
@@ -101,6 +122,38 @@ kitten.BaseScene = Class.$extend({
   },
 
   /**
+   * Get a loading graphic. Like getGraphic it takes a special graphic fetcher
+   *
+   * @method getLoadingGraphic
+   *
+   * @param {String} fetcher
+   *
+   * @return {kitten.graphic.BaseGraphic}
+   */
+  getLoadingGraphic: function (fetcher) {
+    var exploded = fetcher.split(':');
+
+    if (exploded.length < 2) {
+      throw kitten.Error('You must precised a valid graphic fetcher ' +
+        '(ex: "layer_name:graphic_name"). "%s" given is invalid', fetcher);
+    }
+
+    var layerName   = exploded[0];
+    var graphicName = exploded[1];
+
+    if (undefined === this.loadingLayers[layerName]) {
+      throw kitten.Error('Undefined layer "%s" :(', layerName);
+    }
+
+    var graphic = this.loadingLayers[layerName].getGraphic(graphicName);
+    if (null === graphic) {
+      throw kitten.Error('Undefined layer graphic "%s" :(', fetcher);
+    }
+
+    return graphic;
+  },
+
+  /**
    * Try to retrieve a layer
    *
    * @method getLayer
@@ -111,10 +164,27 @@ kitten.BaseScene = Class.$extend({
    */
   getLayer: function (name) {
     if (undefined === this.layers[name]) {
-      kitten.Error('Undefined layer "%s" :(', name);
+      throw kitten.Error('Undefined layer "%s" :(', name);
     }
 
     return this.layers[name];
+  },
+
+  /**
+   * Get a loading layer
+   *
+   * @method getLoadingLayer
+   *
+   * @param {String} name
+   *
+   * @return {kitten.Layer}
+   */
+  getLoadingLayer: function (name) {
+    if (undefined === this.loadingLayers[name]) {
+      throw kitten.Error('Undefined loading layer "%s" :(', name);
+    }
+
+    return this.loadingLayers[name];
   },
 
   /**
@@ -173,19 +243,15 @@ kitten.BaseScene = Class.$extend({
       throw kitten.Error('You must set up a scene before act it');
     }
 
-    if (null === this.orderedLayers) {
-      this.orderedLayers = [];
-      // order the layers by depth
-      for (var name in this.layers) {
-        // set up the layer
-        this.layers[name].setUp(this.engine);
-        if (undefined === this.orderedLayers[this.layers[name].depth]) {
-          this.orderedLayers[this.layers[name].depth] = [this.layers[name]];
-        } else {
-          this.orderedLayers[this.layers[name].depth].push(this.layers[name]);
-        }
-      }
-    }
+    this.orderedLayers = null === this.orderedLayers ?
+      this.orderLayers(this.layers) :
+      this.orderedLayers
+    ;
+
+    this.orderedLoadingLayers = null === this.orderedLoadingLayers ?
+      this.orderLayers(this.loadingLayers) :
+      this.orderedLoadingLayers
+    ;
 
     // act or load the scene depending on the ready state
     this.checkReadyState();
@@ -196,9 +262,20 @@ kitten.BaseScene = Class.$extend({
     }
 
     // draw layers
-    for (var i in this.orderedLayers) {
-      for (var j in this.orderedLayers[i]) {
-        this.orderedLayers[i][j].draw();
+    // first draw the loading layer if it exists
+    if (!this.ready) {
+      // draw loading ordered layers
+      for (var i in this.orderedLoadingLayers) {
+        for (var j in this.orderedLoadingLayers[i]) {
+          this.orderedLoadingLayers[i][j].draw();
+        }
+      }
+    } else {
+      // draw ordered layers
+      for (var k in this.orderedLayers) {
+        for (var l in this.orderedLayers[k]) {
+          this.orderedLayers[k][l].draw();
+        }
       }
     }
   },
@@ -237,6 +314,29 @@ kitten.BaseScene = Class.$extend({
 
     this.ready = true;
     return;
+  },
+
+  /**
+   * Order the given layers list
+   *
+   * @param {Object} layers
+   *
+   * @return {Array}, the ordered layers
+   */
+  orderLayers: function (layers) {
+    var ordered = [];
+    // order the layers by depth
+    for (var name in layers) {
+      // set up the layer
+      layers[name].setUp(this.engine);
+      if (undefined === ordered[layers[name].depth]) {
+        ordered[layers[name].depth] = [layers[name]];
+      } else {
+        ordered[layers[name].depth].push(layers[name]);
+      }
+    }
+
+    return ordered;
   }
 });
 

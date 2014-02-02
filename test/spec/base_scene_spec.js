@@ -172,4 +172,36 @@ describe('A BaseScene', function() {
       expect(layers[i].setUp).not.toHaveBeenCalled();
     }
   });
+
+  it('should can be load', function() {
+    var engine = new kitten.GameEngine('#game');
+    var scene = new kitten.BaseScene();
+
+    expect(scene.load).toBeDefined();
+
+    scene.addLayer('layer', {});
+
+    scene.getLayer('layer').isReady = function () {
+      return false;
+    };
+
+    scene.load = jasmine.createSpy('load');
+    scene.act = jasmine.createSpy('act');
+
+    scene.setUp(engine);
+
+    scene.update();
+
+    expect(scene.load).toHaveBeenCalled();
+
+    scene.getLayer('layer').isReady = function () {
+      return true;
+    };
+    scene.load = jasmine.createSpy('load');
+
+    scene.update();
+
+    expect(scene.act).toHaveBeenCalled();
+    expect(scene.load).not.toHaveBeenCalled();
+  });
 });

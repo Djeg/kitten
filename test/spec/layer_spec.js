@@ -28,4 +28,15 @@ describe('A layer', function() {
     expect(f).toThrow();
     expect(f2).not.toThrow();
   });
+
+  it('should be ready when graphics are laoded', function() {
+    var layer   = new kitten.Layer();
+    var graphic = new kitten.graphic.BaseGraphic();
+    graphic.isReady = jasmine.createSpy('isReady');
+    layer.addGraphic('g', graphic);
+
+    layer.isReady();
+
+    expect(graphic.isReady).toHaveBeenCalled();
+  });
 });

@@ -40,6 +40,15 @@ kitten.graphic.BaseGraphic = Class.$extend({
   },
 
   /**
+   * A simple method that allow the graphic to have a time to load
+   *
+   * @method isReady
+   */
+  isReady: function () {
+    return true;
+  },
+
+  /**
    * Set up the engine context
    *
    * @method setUp

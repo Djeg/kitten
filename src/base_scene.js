@@ -29,6 +29,7 @@ kitten.BaseScene = Class.$extend({
     this.orderedLayers = null;
     this.acting        = false;
     this.layerFactory  = new kitten.factory.LayerFactory();
+    this.ready         = false;
   },
 
   /**
@@ -141,6 +142,16 @@ kitten.BaseScene = Class.$extend({
   },
 
   /**
+   * This method is launched during the scene is loading. You can implement
+   * a special loading scene
+   *
+   * @method load
+   */
+  load: function () {
+    return;
+  },
+
+  /**
    * Act a scene. This method handle the scene logic and behavior. It throw by
    * default bcause you need to implement your scene behavior inside ^.^
    *
@@ -176,8 +187,13 @@ kitten.BaseScene = Class.$extend({
       }
     }
 
-    // act the scene
-    this.act();
+    // act or load the scene depending on the ready state
+    this.checkReadyState();
+    if (this.ready) {
+      this.act();
+    } else {
+      this.load();
+    }
 
     // draw layers
     for (var i in this.orderedLayers) {
@@ -204,6 +220,23 @@ kitten.BaseScene = Class.$extend({
     }
     this.layers        = {};
     this.acting        = false;
+    this.ready         = false;
+  },
+
+  /**
+   * Check the ready state of that scene
+   *
+   * @method checkReadyState
+   */
+  checkReadyState: function () {
+    for (var i in this.layers) {
+      if (!this.layers[i].isReady()) {
+        return;
+      }
+    }
+
+    this.ready = true;
+    return;
   }
 });
 

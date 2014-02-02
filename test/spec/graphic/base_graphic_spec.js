@@ -32,4 +32,16 @@ describe('A basic graphic', function() {
       expect(graphic.draw).toBeDefined();
       expect(f).toThrow();
     });
+
+    it('should have a is ready method', function() {
+      var graphic = new kitten.graphic.BaseGraphic({});
+
+      expect(graphic.isReady).toBeDefined();
+    });
+
+    it('should be ready', function() {
+      var graphic = new kitten.graphic.BaseGraphic({});
+
+      expect(graphic.isReady()).toBe(true);
+    });
 });

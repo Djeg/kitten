@@ -115,5 +115,22 @@ kitten.Layer = Class.$extend({
 
     this.graphics = {};
     this.engine   = null;
+  },
+
+  /**
+   * Test if this layer is ready to be draw
+   *
+   * @method isReady
+   *
+   * @return {boolean}
+   */
+  isReady: function () {
+    for (var i in this.graphics) {
+      if (!this.graphics[i].isReady()) {
+        return false;
+      }
+    }
+
+    return true;
   }
 });

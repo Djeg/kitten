@@ -265,4 +265,41 @@ describe('A BaseScene', function() {
     expect(scene.getKey('ENTER')).toBe(13);
     expect(scene.getKey('SPACE')).toBe(32);
   });
+
+  it('should detect mouse pressed button', function() {
+    var engine = new kitten.GameEngine('#game');
+    var scene  = new kitten.BaseScene();
+    scene.setUp(engine);
+
+    engine.mouse.isPressed = jasmine.createSpy('isPressed');
+
+    scene.isMousePressed();
+
+    expect(engine.mouse.isPressed).toHaveBeenCalled();
+  });
+
+  it('should detect mouse clicked button', function() {
+    var engine = new kitten.GameEngine('#game');
+    var scene  = new kitten.BaseScene();
+
+    scene.setUp(engine);
+
+    engine.mouse.isClicked = jasmine.createSpy('isClicked');
+
+    scene.isClicked();
+
+    expect(engine.mouse.isClicked).toHaveBeenCalled();
+  });
+
+  it('should retrieve mouse button code', function() {
+    var engine = new kitten.GameEngine('#game');
+    var scene = new kitten.BaseScene();
+
+    scene.setUp(engine);
+
+    expect(scene.getMouseButton('left')).toBe(1);
+    expect(scene.getMouseButton('LEFT')).toBe(1);
+    expect(scene.getMouseButton('right')).toBe(3);
+    expect(scene.getMouseButton('RIGHT')).toBe(3);
+  });
 });

@@ -47,6 +47,7 @@ kitten.GameEngine = Class.$extend({
     this.gameLoop     = false;
     this.screen       = new kitten.Screen(this.config.get('screen', {}), this);
     this.keyboard     = new kitten.Keyboard();
+    this.mouse        = new kitten.Mouse(this);
     this.screen.adjust();
   },
 
@@ -98,10 +99,19 @@ kitten.GameEngine = Class.$extend({
       scene.update();
     }, 1000 / this.config.get('fps', 25) );
     this.$element.bind('keydown', function (e) {
-      this.keyboard.doPress(e.wich);
+      this.keyboard.doPress(e.which);
     });
     this.$element.bind('keyup', function (e) {
       this.keyboard.doRelease(e.which);
+    });
+    this.$element.bind('mousemove', function (e) {
+      this.mouse.updatePosition(e.pageX, e.pageY);
+    });
+    this.$element.bind('mousedown', function (e) {
+      this.mouse.doPress(e.which);
+    });
+    this.$element.bind('mouseup', function (e) {
+      this.mouse.doRelease(e.which);
     });
 
     return this;
@@ -127,6 +137,9 @@ kitten.GameEngine = Class.$extend({
 
     this.$element.unbind('keydown');
     this.$element.unbind('keypress');
+    this.$element.unbind('mousemove');
+    this.$element.unbind('mousedown');
+    this.$element.unbind('mouseup');
 
     return this;
   }

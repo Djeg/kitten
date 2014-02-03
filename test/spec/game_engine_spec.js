@@ -103,4 +103,10 @@ describe('The kitten GameEngine', function() {
     expect(engine.runningScene).toBe(null);
     expect(engine.gameLoop).toBe(null);
   });
+
+  it('should contains a mouse', function() {
+    var engine = new kitten.GameEngine('#game');
+
+    expect(engine.mouse).toBeDefined();
+  });
 });

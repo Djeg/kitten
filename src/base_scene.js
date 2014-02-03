@@ -214,6 +214,45 @@ kitten.BaseScene = Class.$extend({
   },
 
   /**
+   * Test if a mouse button is pressed
+   *
+   * @method isMousePressed
+   *
+   * @param {Number} btnCode
+   *
+   * @return {Boolean}
+   */
+  isMousePressed: function (btnCode) {
+    return this.engine.mouse.isPressed(btnCode);
+  },
+
+  /**
+   * Test if a mouse button is clicked
+   *
+   * @method isClicked
+   *
+   * @param {Number} btnCode
+   *
+   * @return {Boolean}
+   */
+  isClicked: function (btnCode) {
+    return this.engine.mouse.isClicked(btnCode);
+  },
+
+  /**
+   * Retrieve a mouse key code, that can be send into MousePressed and clicked
+   *
+   * @method getMouseButton
+   *
+   * @param {String} btnName
+   *
+   * @return {Number}
+   */
+  getMouseButton: function (btnName) {
+    return kitten.Mouse[btnName];
+  },
+
+  /**
    * Retrieve a key code, that can be send into keyPressed or keyPushed
    * of a kitten.Keyboard object
    *
